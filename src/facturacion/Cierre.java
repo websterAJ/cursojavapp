@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.time.LocalDate;
 
    /**
     * ******Notas:
@@ -33,18 +34,38 @@ public class Cierre {
     * 
     */
     public static void readfile(String file) throws FileNotFoundException, IOException {
-        String content;                                     //Contenido del archivo en string
-        FileReader fread = new FileReader(file);            //FileReader de nombre fread con parametro file (file es el archivo a leer)
-        BufferedReader bread = new BufferedReader(fread);   //BufferedReader de nombre bread con el FileReader como parametro         
-        FileWriter result = null;                           //FileWriter con variable para creacion de Cierre.txt
-        PrintWriter pwriter = null;                         //PrintWriter con variable para impresion de texto en Cierre.txt
+        String content;                                                         //Contenido del archivo en string
+        Integer fullcontent = 0;
+        FileReader fread = new FileReader(file);                                //FileReader de nombre fread con parametro file (file es el archivo a leer)
+        BufferedReader bread = new BufferedReader(fread);                       //BufferedReader de nombre bread con el FileReader como parametro         
+        FileWriter result = null;                                               //FileWriter con variable para creacion de Cierre.txt
+        PrintWriter pwriter = null;                                             //PrintWriter con variable para impresion de texto en Cierre.txt
+        LocalDate date = LocalDate.now();  
 
         System.out.println("Se leyo un archivo correctamente. Consultar archivo Cierre.txt generado por el sistema. ");
-           // while((content = bread.readLine())!=null) { //Mientras el contenido no sea null, es decir, que exista
-                try{                                            //Generamos el fichero con los resultados
+           // while((content = bread.readLine())!=null) {                       //Mientras el contenido no sea null, es decir, que exista
+                try{                                                            //Generamos el fichero con los resultados
                     content = bread.readLine();
-                    result = new FileWriter("Cierre.txt");      //Nombramos al archivo
-                    pwriter = new PrintWriter(result);          //Le pasamos como parametro el FileWriter result (archivo Cierre.txt)
+                    
+                    String[] array_content = content.split(",");                //Se toma el contenido del archivo (string) y se convierte en array separando los datos por las comas (,)
+                     
+                    for (int i = 0; i < array_content.length; i++) {            //recorremos el array por sus posiciones  
+                        
+                    //  if(array_content[i].equals(date)){                      //Si la posicion es igual a la fecha del dia ejecuta el codigo
+                        
+                            fullcontent = Integer.parseInt(array_content[i+3]); //convierte el valor del monto de string a integer, para poder realizar operaciones matematicas con el
+                            System.out.println(fullcontent);
+                            i = array_content.length;                           //detiene el for igualando el valor de i a la longitud total (condicion dada en el for para detener su ejecucion)
+
+                    //    }else{
+                    //       System.err.println("Error if de comparacion contra date");
+                    //    }
+                    //        i = array_content.length;                         //detiene el for igualando el valor de i a la longitud total (condicion dada en el for para detener su ejecucion)
+
+                    }
+                    
+                    result = new FileWriter("/home/fernando/Escritorio/Cierre.txt");      //Nombramos al archivo
+                    pwriter = new PrintWriter(result);                          //Le pasamos como parametro el FileWriter result (archivo Cierre.txt)
                     pwriter.println("Prueba de impresion de texto en archivo");
                     pwriter.println("Texto sacado de archivo inicial: ");
                     pwriter.println("====================================================================");
@@ -53,7 +74,8 @@ public class Cierre {
 
                 } catch (Exception e) {
                     System.out.println("Error en el Exception (linea 47)");
-                } finally {                                     //En el finally cerramos el Archivo y el lector de archivo.
+                    System.out.println(e.getMessage());
+                } finally {                                                     //En el finally cerramos el Archivo y el lector de archivo.
                     if (result != null) {
                         result.close();
                     }else{
@@ -66,14 +88,14 @@ public class Cierre {
                     }    
                 }
            // }
-           // bread.close();                                      //Cierre del bread
+           // bread.close();                                                    //Cierre del bread
         }
      /**
     * Metodo main: ejecuta el llamado al metodo readfile.
     * El parametro que le pasas debe ser la direccion de donde tienes el archivo
     */
     public static void main(String[] args) throws IOException {
-        readfile("/home/fernando/Escritorio/Prueba_cierre.txt"); 
+        readfile("/home/fernando/Escritorio/control_factura.txt"); 
     }
    
 }
