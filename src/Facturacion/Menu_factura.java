@@ -144,7 +144,7 @@ public class Menu_factura {
             bw.write(contenido);
             bw.close();
             
-            String data         = date+","+code+",1,500,12,";
+            String data         = date+";"+code+";1;500;12\n";
             String txt_control  = "/home/yosmel/Escritorio/control_factura.txt";
             File control        = new File(txt_control);
                  
@@ -163,36 +163,39 @@ public class Menu_factura {
     public static void anular_factura(String input_codigo )
     {
         try
-        {  
+        {
             String content;   
             String array_string;   
             String txt_control   = "/home/yosmel/Escritorio/control_factura.txt";
             FileReader fread     = new FileReader(txt_control);            
             BufferedReader bread = new BufferedReader(fread);  
             content = bread.readLine();
-            String[] array_content = content.split(","); 
             
-            for (int i = 0; i < array_content.length; i++) {
-                if(array_content[i].equals(input_codigo)){
-                    array_content[i+1] = "0";
-                    System.out.println("------------------------------------------");
-                    System.out.println("-- Factura "+input_codigo+" Anulada!!   --");
-                    System.out.println("------------------------------------------");
+            while(content != null){
+                String[] array_content = content.split(";"); 
+                
+                for (int i = 0; i < array_content.length; i++) {
+                    if(array_content[i].equals(input_codigo)){
+                        array_content[i+1] = "0";
+                        System.out.println("------------------------------------------");
+                        System.out.println("-- Factura "+input_codigo+" Anulada!!   --");
+                        System.out.println("------------------------------------------");
+                    }
                 }
-            }
-            array_string = "";
-            for (String txt : array_content) {
-                    array_string+= txt+",";
+                content = bread.readLine();
+                array_string = "";
+                for (String txt : array_content) {
+                        array_string+= txt+";";
+                }
+
+                File txt          = new File(txt_control);
+                FileWriter fw     = new FileWriter(txt);
+                BufferedWriter bw = new BufferedWriter(fw);
+                bw.write(array_string);
+                bw.close();
             }
             
-            File txt          = new File(txt_control);
-            FileWriter fw     = new FileWriter(txt);
-            BufferedWriter bw = new BufferedWriter(fw);
-            bw.write(array_string);
-            bw.close();
-            
-        } catch (IOException e) {
-            System.out.println("Error en el Exception (linea 47)");
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
