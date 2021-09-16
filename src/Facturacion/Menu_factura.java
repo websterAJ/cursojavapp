@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.Clock;
 import java.time.LocalDate;
 import java.util.Scanner; //Clase scanner para leer datos del teclado
 import javax.swing.JFileChooser;
@@ -174,6 +175,9 @@ public class Menu_factura {
             for (int i = 0; i < array_content.length; i++) {
                 if(array_content[i].equals(input_codigo)){
                     array_content[i+1] = "0";
+                    System.out.println("------------------------------------------");
+                    System.out.println("-- Factura "+input_codigo+" Anulada!!   --");
+                    System.out.println("------------------------------------------");
                 }
             }
             array_string = "";
@@ -186,10 +190,6 @@ public class Menu_factura {
             BufferedWriter bw = new BufferedWriter(fw);
             bw.write(array_string);
             bw.close();
-
-            System.out.println("------------------------------------------");
-            System.out.println("-- Factura "+input_codigo+" Anulada!!                --");
-            System.out.println("------------------------------------------");
             
         } catch (IOException e) {
             System.out.println("Error en el Exception (linea 47)");
