@@ -5,6 +5,8 @@
  */
 package chat.gui;
 
+import chat.socket.socket;
+import chat.socket.socketClient;
 import java.awt.BorderLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -15,13 +17,17 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-
+import java.awt.*;
+import java.awt.event.*;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author ALEXA
  */
-public class gui {   
-    public static void main(String args[]) {        
+public class gui { 
+    public void Ventana() {        
         // Creando el Marco        
         JFrame frame = new JFrame("Chat Frame");       
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);       
@@ -45,7 +51,17 @@ public class gui {
         panel.add(label); // Componentes agregados usando Flow Layout     
         panel.add(label); // Componentes agregados usando Flow Layout      
         panel.add(tf);       
-        panel.add(send);       
+        panel.add(send);
+        send.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    socketClient conexion = new socketClient();
+                    conexion.sendMessage(tf.getText());
+                } catch (IOException ex) {
+                    Logger.getLogger(gui.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
         panel.add(reset);        
         // Área de texto en el centro    
         JTextArea ta = new JTextArea();        

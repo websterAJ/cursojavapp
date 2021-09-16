@@ -6,60 +6,78 @@
 package chat.socket;
 
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 /**
  *
  * @author ALEXA
  */
-public class socketServer extends socket{
-    //Se usa el constructor para servidor de Conexion
-    public socketServer() throws IOException{
-        super("servidor");
-    } 
-    //Método para iniciar el servidor
-    public void startServer(){
-        try
-        {
-            while(true){
-               
-                System.out.println("===              Esperando...                 ===");//Esperando conexión
-                System.out.println("=================================================");
-                cs = ss.accept(); //Accept comienza el socket y espera una conexión desde un cliente
-                System.out.println("Cliente en línea");
-                //Se obtiene el flujo de salida del cliente para enviarle mensajes
-                salidaCliente = new DataOutputStream(cs.getOutputStream());
-
-                //Se le envía un mensaje al cliente usando su flujo de salida
-                salidaCliente.writeUTF("Petición recibida y aceptada");
-
-                //Se obtiene el flujo entrante desde el cliente
-                BufferedReader entrada = new BufferedReader(new InputStreamReader(cs.getInputStream()));
-                //Mientras haya mensajes desde el cliente
-                while((mensajeServidor = entrada.readLine()) != null) 
-                {
-                    //Se muestra por pantalla el mensaje recibido
-                    System.out.println(mensajeServidor);
-                }
-                System.out.println("Fin de la conexión");
-                cs.close();
+public class socketServer implements Runnable {
+    private Socket con = null;
+    public static void main(String[] args) {
+        try {
+            ServerSocket s = new ServerSocket(8888);
+            System.out.println("====================================================");
+            System.out.println("===                Servidor iniciado             ===");
+            System.out.println("====================================================");
+            System.out.println("===                Esperando...                  ===");
+            System.out.println("====================================================");
+            while (true) {
+                Socket c = s.accept();
+                printSocketInfo(c);
+                socketServer v = new socketServer(c);
+                Thread t = new Thread(v);
+                t.start();
             }
-        }
-        catch (IOException e)
-        {
-            System.out.println(e.getMessage());
+        } catch (IOException e) {
+            System.err.println(e.toString());
         }
     }
-    public static void main(String[] args) throws IOException {
-        
-        //Se crea el servidor
-        socketServer serv = new socketServer();
-        System.out.println("=================================================");
-        System.out.println("===              Iniciando servidor           ===");
-        System.out.println("=================================================");
-        //Se inicia el servidor
-        serv.startServer();
+    public socketServer(Socket c){
+        con = c;
+    }
+    @Override
+   public void run() {
+        try {
+            BufferedReader r;
+            try (BufferedWriter w = new BufferedWriter(new OutputStreamWriter(
+                    con.getOutputStream()))) {
+                r = new BufferedReader(new InputStreamReader(
+                        con.getInputStream()));
+                String m;
+                int d=0;
+                while ((m=r.readLine())!= null) {
+                    System.out.println(m);
+                    d += m.length();
+                    System.out.println(d);
+                    if (m.equals(".")) break;
+                    char[] a = m.toCharArray();
+                    int n = a.length;
+                    for (int i=0; i<n/2; i++) {
+                        char t = a[i];
+                        a[i] = a[n-1-i];
+                        a[n-i-1] = t;
+                    }
+                    w.write(a,0,n);
+                    w.newLine();
+                    w.flush();
+                }
+                
+                System.out.println("===                Esperando...                  ===");
+                System.out.println("====================================================");
+            }
+        r.close();
+        con.close();
+        } catch (IOException e) {
+            System.err.println(e.toString());
+        }
+   }
+    private static void printSocketInfo(Socket s) {
+        System.out.println("Cliente conectado Ip = "+s.getInetAddress().toString()+" Puerto: "+s.getPort());
     }
 }

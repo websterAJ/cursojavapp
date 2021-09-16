@@ -5,6 +5,7 @@
  */
 package chat.socket;
 
+import java.io.DataOutputStream;
 import java.io.IOException;
 
 /**
@@ -14,5 +15,19 @@ import java.io.IOException;
 public class socketClient extends socket{
     public socketClient() throws IOException{
         super("cliente");
-    } 
+    }
+    
+    public void sendMessage(String message){
+        try
+        {
+            //Flujo de datos hacia el servidor
+            salidaServidor = new DataOutputStream(cs.getOutputStream());
+            // Se envia el mensaje
+            salidaServidor.writeUTF(message);
+            //Fin de la conexión
+            cs.close();
+        }
+        catch (IOException e){System.out.println(e.getMessage());}
+        
+    }
 }

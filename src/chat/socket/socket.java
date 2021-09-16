@@ -15,8 +15,8 @@ import java.net.Socket;
  * @author ALEXA
  */
 public class socket {
-    protected final int PUERTO = 1234; //Puerto para la conexión
-    protected final String HOST = "10.150.150.85"; //Host para la conexión
+    protected final int PUERTO = 8888; //Puerto para la conexión
+    protected final String HOST = "192.168.44.74"; //Host para la conexión
     protected String mensajeServidor; //Mensajes entrantes (recibidos) en el servidor
     protected ServerSocket ss; //Socket del servidor
     protected Socket cs; //Socket del cliente
