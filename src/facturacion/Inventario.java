@@ -13,6 +13,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
+import javax.swing.*;
 
 /**
  *
@@ -66,9 +67,11 @@ public class Inventario {
     public void ingresar() throws IOException {
         FileWriter fw = new FileWriter(inventarioFile.getAbsoluteFile(), true);
         BufferedWriter br = new BufferedWriter(fw);
+        String  pantalla = "";
         try {
             
         } catch (Exception e) {
+            System.out.println(e.getMessage());
         }finally{
            br.close();
            fw.close();
@@ -78,23 +81,35 @@ public class Inventario {
     public void consultar() throws FileNotFoundException, IOException {
         FileReader fr = new FileReader(inventarioFile);
         BufferedReader br = new BufferedReader(fr);
+        String  pantalla = "";
         String Data = br.readLine();
-        while (Data != null) {
-            System.out.println(Data);
-            Data=br.readLine();
+        try {
+            while (Data != null) {
+                System.out.println(Data);
+                Data=br.readLine();
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }finally{
+            br.close();
+            fr.close();
         }
-        br.close();
-        fr.close();
     }
     public void eliminar() throws IOException {
         FileWriter fw = new FileWriter(inventarioFile);
         BufferedWriter br = new BufferedWriter(fw);
-        
-        br.close();
-        fw.close();
+        String  pantalla = "";
+        try {
+            
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }finally{
+            br.close();
+            fw.close();
+        }
     }
     public static void main(String[] args) throws IOException {
-        Inventario a = new Inventario();
-        a.menu();
+       Inventario a = new Inventario();
+       a.menu();
     }
 }
