@@ -6,16 +6,16 @@
 package chat.socket;
 
 import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
 /**
  *
  * @author ALEXA
  */
 public class socketClient extends socket{
-    private BufferedReader in;
+    private DataInputStream in;
     public socketClient() throws IOException{
         super("cliente");
     }
@@ -27,9 +27,9 @@ public class socketClient extends socket{
             salidaServidor = new DataOutputStream(cs.getOutputStream());
             // Se envia el mensaje
             salidaServidor.writeUTF(message);
-            in = new BufferedReader(new InputStreamReader(cs.getInputStream()));
+            in = new DataInputStream(cs.getInputStream());
             String resp = null;
-            resp = in.readLine();
+            resp = in.readUTF();
             //Fin de la conexión
             cs.close();
             return resp;
