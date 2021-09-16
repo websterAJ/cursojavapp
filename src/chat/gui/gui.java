@@ -44,7 +44,9 @@ public class gui {
         m1.add(m22);        
         // Creando el panel en la parte inferior y agregando componentes       
         JPanel panel = new JPanel(); // el panel no está visible en la salida      
-        JLabel label = new JLabel("Introducir texto");       
+        JLabel label = new JLabel("Introducir texto");
+        // Área de texto en el centro    
+        JTextArea ta = new JTextArea();    
         JTextField tf = new JTextField(10); // acepta hasta 10 caracteres        
         JButton send = new JButton("Enviar");       
         JButton reset = new JButton("Restablecer");       
@@ -56,15 +58,15 @@ public class gui {
             public void actionPerformed(ActionEvent e) {
                 try {
                     socketClient conexion = new socketClient();
-                    conexion.sendMessage(tf.getText());
+                    String respuesta = conexion.sendMessage(tf.getText());
+                    ta.append(respuesta+"\n");
                 } catch (IOException ex) {
                     Logger.getLogger(gui.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
         panel.add(reset);        
-        // Área de texto en el centro    
-        JTextArea ta = new JTextArea();        
+            
         // Agregar componentes al marco.      
         frame.getContentPane().add(BorderLayout.SOUTH, panel);       
         frame.getContentPane().add(BorderLayout.NORTH, mb);       

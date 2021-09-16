@@ -5,6 +5,7 @@
  */
 package chat.socket;
 
+import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -21,7 +22,6 @@ public class socket {
     protected ServerSocket ss; //Socket del servidor
     protected Socket cs; //Socket del cliente
     protected DataOutputStream salidaServidor, salidaCliente; //Flujo de datos de salida
-    
     public socket(String tipo) throws IOException //Constructor
     {
         //if(!tipo.equals("servidor"))
