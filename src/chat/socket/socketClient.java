@@ -5,6 +5,9 @@
  */
 package chat.socket;
 
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 
 /**
@@ -12,7 +15,29 @@ import java.io.IOException;
  * @author ALEXA
  */
 public class socketClient extends socket{
+    private DataInputStream in;
     public socketClient() throws IOException{
         super("cliente");
-    } 
+    }
+    
+    public String sendMessage(String message){
+        try
+        {
+            //Flujo de datos hacia el servidor
+            salidaServidor = new DataOutputStream(cs.getOutputStream());
+            // Se envia el mensaje
+            salidaServidor.writeUTF(message);
+            in = new DataInputStream(cs.getInputStream());
+            String resp = null;
+            resp = in.readUTF();
+            //Fin de la conexión
+            cs.close();
+            return resp;
+            
+        }
+        catch (IOException e){
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
 }

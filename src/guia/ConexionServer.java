@@ -3,9 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package chat.socket;
+package guia;
 
-import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -13,16 +12,17 @@ import java.net.Socket;
 
 /**
  *
- * @author ALEXA
+ * @author Alexander torres
  */
-public class socket {
+public class ConexionServer {
     protected final int PUERTO = 8888; //Puerto para la conexión
     protected final String HOST = "192.168.44.74"; //Host para la conexión
     protected String mensajeServidor; //Mensajes entrantes (recibidos) en el servidor
     protected ServerSocket ss; //Socket del servidor
     protected Socket cs; //Socket del cliente
     protected DataOutputStream salidaServidor, salidaCliente; //Flujo de datos de salida
-    public socket(String tipo) throws IOException //Constructor
+    
+    public ConexionServer(String tipo) throws IOException //Constructor
     {
         //if(!tipo.equals("servidor"))
         if(tipo.equalsIgnoreCase("servidor"))

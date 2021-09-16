@@ -6,7 +6,7 @@
 package cursojavapp;
 
 import java.util.Scanner;
-import facturacion.*;
+import chat.gui.gui;
 /**
  *
  * @author ALEXA
@@ -25,6 +25,7 @@ public class Cursojavapp {
         pantalla += "====================================================\n";
         pantalla += "== Seleccione una opcion :                        ==\n";
         pantalla += "== 1) Sistema de facturacion                      ==\n";
+        pantalla += "== 2) Sistema de chat                             ==\n";
         pantalla += "====================================================\n";
         pantalla += "== opcion :";
         System.out.print(pantalla);
@@ -33,6 +34,10 @@ public class Cursojavapp {
         switch(opt){
             case 1:
                 //facturacion.main();
+                break;
+            case 2:
+                gui chat = new gui();
+                chat.Ventana();
                 break;
         }
     }

@@ -5,6 +5,8 @@
  */
 package chat.gui;
 
+import chat.socket.socket;
+import chat.socket.socketClient;
 import java.awt.BorderLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -15,13 +17,17 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-
+import java.awt.*;
+import java.awt.event.*;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author ALEXA
  */
-public class gui {   
-    public static void main(String args[]) {        
+public class gui { 
+    public void Ventana() {        
         // Creando el Marco        
         JFrame frame = new JFrame("Chat Frame");       
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);       
@@ -38,17 +44,29 @@ public class gui {
         m1.add(m22);        
         // Creando el panel en la parte inferior y agregando componentes       
         JPanel panel = new JPanel(); // el panel no está visible en la salida      
-        JLabel label = new JLabel("Introducir texto");       
+        JLabel label = new JLabel("Introducir texto");
+        // Área de texto en el centro    
+        JTextArea ta = new JTextArea();    
         JTextField tf = new JTextField(10); // acepta hasta 10 caracteres        
         JButton send = new JButton("Enviar");       
         JButton reset = new JButton("Restablecer");       
         panel.add(label); // Componentes agregados usando Flow Layout     
         panel.add(label); // Componentes agregados usando Flow Layout      
         panel.add(tf);       
-        panel.add(send);       
+        panel.add(send);
+        send.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    socketClient conexion = new socketClient();
+                    String respuesta = conexion.sendMessage(tf.getText());
+                    ta.append(respuesta+"\n");
+                } catch (IOException ex) {
+                    Logger.getLogger(gui.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
         panel.add(reset);        
-        // Área de texto en el centro    
-        JTextArea ta = new JTextArea();        
+            
         // Agregar componentes al marco.      
         frame.getContentPane().add(BorderLayout.SOUTH, panel);       
         frame.getContentPane().add(BorderLayout.NORTH, mb);       
