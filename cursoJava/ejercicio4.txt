@@ -1,0 +1,4 @@
+alexander||torres||24||200.0
+carlos||jaime||50||200.0
+carlos||segovia||30||200.0
+carlos||jaime||560||500.0
