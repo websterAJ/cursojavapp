@@ -1,0 +1,5 @@
+Prueba de impresion de texto en archivo
+Texto sacado de archivo inicial: 
+====================================================================
+   CONTENIDO DE PRUEBA PARA TESTEAR LECTURA DE ARCHIVOS PLANOS.9+++++++++++++++*
+====================================================================
