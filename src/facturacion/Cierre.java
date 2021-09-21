@@ -47,22 +47,27 @@ public class Cierre {
                 try{                                                            //Generamos el fichero con los resultados
                     content = bread.readLine();
                     
-                    String[] array_content = content.split(",");                //Se toma el contenido del archivo (string) y se convierte en array separando los datos por las comas (,)
+                     String[] array_content = content.split(",");                //Se toma el contenido del archivo (string) y se convierte en array separando los datos por las comas (,)
                      
-                    for (int i = 0; i < array_content.length; i++) {            //recorremos el array por sus posiciones  
+                   // for (int i = 0; i < array_content.length; i++) {            //recorremos el array por sus posiciones  
                         
                     //  if(array_content[i].equals(date)){                      //Si la posicion es igual a la fecha del dia ejecuta el codigo
                         
-                            fullcontent = Integer.parseInt(array_content[i+3]); //convierte el valor del monto de string a integer, para poder realizar operaciones matematicas con el
-                            System.out.println(fullcontent);
-                            i = array_content.length;                           //detiene el for igualando el valor de i a la longitud total (condicion dada en el for para detener su ejecucion)
+                         //   fullcontent = Integer.parseInt(array_content[i+3]); //convierte el valor del monto de string a integer, para poder realizar operaciones matematicas con el
+                         //   System.out.println(fullcontent);
+                         //   i = array_content.length;                           //detiene el for igualando el valor de i a la longitud total (condicion dada en el for para detener su ejecucion)
 
                     //    }else{
                     //       System.err.println("Error if de comparacion contra date");
                     //    }
                     //        i = array_content.length;                         //detiene el for igualando el valor de i a la longitud total (condicion dada en el for para detener su ejecucion)
-
-                    }
+                                
+                            while(content != null){
+                                    fullcontent += Integer.parseInt(array_content[3]);
+                                    System.out.println(fullcontent);
+                                    content = bread.readLine();
+                                }
+                   // }
                     
                     result = new FileWriter("/home/fernando/Escritorio/Cierre.txt");      //Nombramos al archivo
                     pwriter = new PrintWriter(result);                          //Le pasamos como parametro el FileWriter result (archivo Cierre.txt)
