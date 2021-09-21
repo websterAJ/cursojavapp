@@ -6,8 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.time.Clock;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Scanner; //Clase scanner para leer datos del teclado
 import javax.swing.JFileChooser;
 
@@ -144,7 +144,7 @@ public class Menu_factura {
             bw.write(contenido);
             bw.close();
             
-            String data         = date+";"+code+";1;500;12\n";
+            String data         = date+","+code+",1,500,12,";
             String txt_control  = "/home/yosmel/Escritorio/control_factura.txt";
             File control        = new File(txt_control);
                  
@@ -163,39 +163,37 @@ public class Menu_factura {
     public static void anular_factura(String input_codigo )
     {
         try
-        {
+        {  
             String content;   
-            String array_string;   
+            String array_string="";   
             String txt_control   = "/home/yosmel/Escritorio/control_factura.txt";
-            FileReader fread     = new FileReader(txt_control);            
+            FileReader fread     = new FileReader(new File(txt_control));            
             BufferedReader bread = new BufferedReader(fread);  
             content = bread.readLine();
+            String[] array_content = content.split(";"); 
             
             while(content != null){
-                String[] array_content = content.split(";"); 
-                
-                for (int i = 0; i < array_content.length; i++) {
-                    if(array_content[i].equals(input_codigo)){
-                        array_content[i+1] = "0";
-                        System.out.println("------------------------------------------");
-                        System.out.println("-- Factura "+input_codigo+" Anulada!!   --");
-                        System.out.println("------------------------------------------");
-                    }
+                array_content = content.split(";"); 
+                if(array_content[1].equals(input_codigo)){
+                    array_content[2]="0";
+                    array_string += Arrays.toString(array_content).replace(" ", "").replace(",", ";").replace("[", "").replace("]", "")+"\n";
+                }else{
+                    array_string += content + "\n";  
                 }
                 content = bread.readLine();
-                array_string = "";
-                for (String txt : array_content) {
-                        array_string+= txt+";";
-                }
-
-                File txt          = new File(txt_control);
-                FileWriter fw     = new FileWriter(txt);
-                BufferedWriter bw = new BufferedWriter(fw);
-                bw.write(array_string);
-                bw.close();
             }
+            System.out.println("------------------------------------------");
+            System.out.println("--      Factura "+input_codigo+" Anulada!!           --");
+            System.out.println("------------------------------------------");
             
-        } catch (Exception e) {
+            File txt          = new File(txt_control);
+            FileWriter fw     = new FileWriter(txt);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(array_string);
+            bw.close();
+            
+        } catch (IOException e) {
+            System.out.println("Error en el Exception (linea 47)");
             System.out.println(e.getMessage());
         }
     }
